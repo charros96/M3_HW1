@@ -5,23 +5,25 @@ from params import g
 q = (p-1)/2
 
 def keygen():   
-    sk = random.randrange(1,q)
+    sk = random.randint(1,q)
     pk = pow(g,sk,p)
     return pk,sk
 
 def encrypt(pk,m):
-    r = random.randrange(1,q)
+    r = random.randint(1,q)
     c1 = pow(g,r,p)
     c2 = pow(pk,r,p)
-    c2 = pow(c2*m,1,p)
+    c2 = c2*m
     return [c1,c2]
 
 def decrypt(sk,c):
-    num = pow(c[1],1,p)
-    den = pow(c[0],-sk,p)
-    m=num*den
+    c1, c2 = c   
+    c2_inv = pow(c2,-1,p)
+    h = pow(c1,sk,p)
+    cmod_inv = pow(h,-1,p)
+    m = c2/h
+    #m = pow(c2/cmod_inv,1,p)
+    
     return m
 
-pk,sk = keygen()
-c = encrypt(pk,1010)
-print(decrypt(sk,c))
+
