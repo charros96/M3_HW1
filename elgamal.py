@@ -21,7 +21,7 @@ def decrypt(sk,c):
     c2_inv = pow(c2,-1,p)
     h = pow(c1,sk,p)
     cmod_inv = pow(h,-1,p)
-    m = c2/h
+    m = int(c2/h)
     #m = pow(c2/cmod_inv,1,p)
     
     return m
